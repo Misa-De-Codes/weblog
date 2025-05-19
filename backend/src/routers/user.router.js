@@ -9,9 +9,9 @@ const router = express.Router()
 
 router.post('/', signup)
 
-router.post('/login',verifyAccess , login)
+router.post('/login' , login)
 
-router.post('/logout',verifyAccess, logout)
+router.post('/logout', logout)
 
 
 export default router;

@@ -15,11 +15,11 @@ router.get('/', getAllBlogs)
 
 router.get('/:id', getBlogById)
 
-router.post('/:id',verifyAccess ,createBlog)
+router.post('/:id' ,createBlog)
 
-router.put('/:id',verifyAccess, updateBlog)
+router.put('/:id', updateBlog)
 
-router.delete('/:id',verifyAccess, deleteBlog)
+router.delete('/:id', deleteBlog)
 
 
 

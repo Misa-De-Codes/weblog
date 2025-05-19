@@ -5,7 +5,7 @@ const signup = (req, res)=> {
 const login = (req, res)=> {
     res.send("post: login router")
     console.log('fucl u')
-    console.log(res.x)
+    console.log(res.x)          // got it why it's was shpeing undefined as the controll sed back to the error handler
 }
 
 

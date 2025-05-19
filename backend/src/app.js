@@ -9,16 +9,10 @@ app.get('/', (req, res) => {
     res.send('hellow mother fucker')
 })
 
+// Router defination
+import mainRoute from './routers/index.router.js'
 
-// Importing Routers
-import userRouter from './routers/user.router.js'
-import blogRouter from './routers/blog.router.js'
-
-
-
-// Routers Definations
-app.use('/users', userRouter)
-app.use('/blogs', blogRouter)
+app.use('/api', mainRoute)
 
 
 //  custom error handlers
@@ -26,6 +20,7 @@ app.use((error, req, res, next) => {
     if(error) {
         res.send(error)
         console.error(error)
+      //  console.log(res.x)
     }
         console.log('lol')
 })
