@@ -1,20 +1,19 @@
 import app from "./app.js";
 import dotenv from "dotenv";
-import cors from 'cors';
-import db from "./config/db.js";
+import connectDB from "./config/db.js";
 
 
 dotenv.config()
-//app.use(cors())
 
+const port = process.env.PORT || 8000
 
-
-
-
-
-
-const port = process.env.PORT
-db()
-app.listen(port, ()=> {
-    console.log(`The server is running at ${port} mode on port: ${port}`)
+app.listen(port, async() => {
+    try {
+        await connectDB()
+        console.log(`Server is running on http://localhost:${port}`)
+    } catch (error) {
+        console.log(`Server initialization failed:`)
+        console.log(`Error: ${error.message}`)
+        process.exit(1)
+    }
 })

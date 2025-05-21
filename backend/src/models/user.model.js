@@ -1,31 +1,55 @@
 import mongoose, { Schema } from 'mongoose';
+import bcrypt from 'bcrypt'
+import validator from 'validator'
+import jwt from 'jsonwebtoken'
 
-const user = new Schema({
+const userSchema = new Schema({
+
+    //REQUIRED FIELDS
     fullName: {
         type: String,
-        required: true,
+        required: [true, 'Your name is required!'],
         trim: true
     },
-    userName: {
+    username: {
         type: String,
-        required: true,
+        required: [true, 'Username us required!'],
         unique: true,
         lowercase: true,
         trim: true,
     },
     email: {
         type: String,
-        required: true,
+        required: [true, 'Email is required!'],
         unique: true,
         lowercase: true,
         trim: true,
+        validate: {
+            validator: validator.isEmail,
+            message: props => `${props.value} is not a valid email!`
+        }
     },
-    bio: {
+    password: {
         type: String,
+        required: [true, 'Password is required!'],
         trim: true
     },
-    
-
+    refreshToken: {
+        type: String,
+        default: ''
+    },
+    // OPTIONAL FIELDS
+    bio: {
+        type: String,
+        trim: true,
+        default: '',
+        validate: {
+            validator: (value) => {
+                return validator.isLength(value, { max: 250 })
+            },
+            message: 'Bio must be 250 characters or less!'
+        }
+    },
     createdAt: {
         type: Date,
         default: Date.now
@@ -33,4 +57,48 @@ const user = new Schema({
 },)
 
 
-export const User = mongoose.model('User', user) 
+
+
+userSchema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next()
+
+    this.password = await bcrypt.hash(this.password, 10)
+    next()
+})
+
+userSchema.methods.isPasswordCorrect = async function (password) {
+    return await bcrypt.compare(password, this.password)
+}
+
+userSchema.methods.generateAccessTokens = function () {
+    return jwt.sign(
+        {
+            _id: this._id,
+            email: this.email,
+            username: this.username,
+            fullName: this.fullName
+        },
+        process.env.ACCESS_TOKEN_KEY,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        }
+    )
+}
+
+userSchema.methods.generatRefreshTokens = function (params) {
+    return jwt.sign(
+        {
+            _id: this._id
+        },
+        process.env.REFRESH_TOKEN_KEY,
+        {
+            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+        }
+    )
+}
+
+
+
+
+
+export const User = mongoose.model('User', userSchema)

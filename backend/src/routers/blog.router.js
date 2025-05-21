@@ -11,15 +11,14 @@ const router = express.Router()
 // delete blogs/:id = delete one
 
 
-router.get('/', getAllBlogs)
+router.route('/')
+.get(getAllBlogs)
+.post(createBlog);
 
-router.get('/:id', getBlogById)
-
-router.post('/:id' ,createBlog)
-
-router.put('/:id', updateBlog)
-
-router.delete('/:id', deleteBlog)
+router.route('/:id')
+.get(getBlogById)
+.put(updateBlog)
+.delete(deleteBlog);
 
 
 

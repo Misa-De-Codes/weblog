@@ -1,28 +1,43 @@
 import express from 'express'
-
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
+import logger from './utils/logger.js'
+import APIResponse from './utils/APIResponse.js'
+import APIError from './utils/APIResponse.js'
 
 
 const app = express()
 
-app.get('/', (req, res) => {
-    console.log('Hi Susie!')
-    res.send('hellow mother fucker')
-})
+// Setting up universal middlewares
+app.use(express.json())
+app.use(express.urlencoded({
+    extended: true
+}))
+app.use(cors({
+    origin: process.env.CORS_ORIGIN || 'http://localhost:5500',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', ],
+    credentials: true
+}))
+app.use(cookieParser())
+
 
 // Router defination
 import mainRoute from './routers/index.router.js'
 
-app.use('/api', mainRoute)
+app.use('/api/v1', mainRoute)
 
 
-//  custom error handlers
-app.use((error, req, res, next) => {
-    if(error) {
-        res.send(error)
-        console.error(error)
-      //  console.log(res.x)
+// Custom universal error handlers
+app.use((err, req, res, next) => {
+    if ( err instanceof APIError) {
+        return res.status(err.statusCode).json({
+            status: err.status,
+            message: err.message
+        })
     }
-        console.log('lol')
+    return res.status(500).json(
+        new APIResponse(500, 'Internal server error.')    
+    )
 })
 
 
