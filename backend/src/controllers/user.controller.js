@@ -86,7 +86,8 @@ const login = async (req, res) => {
 }
 
 
-const logout = (req, res) => {
+const logout = async(req, res) => {
+    console.log(await req.user)
     res.send("post: logout router")
 }
 
