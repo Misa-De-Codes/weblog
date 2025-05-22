@@ -4,18 +4,18 @@ import generateTokens from '../utils/generateTokens.js'
 import APIResponse from '../utils/APIResponse.js'
 
 export default async (req, res, next) => {
-    try {
-        const accessToken = req.cookies?.AccessToken
-        const refreshToken = req.cookies?.RefreshToken
+    const accessCookie = req.cookies?.AccessToken
+    const refreshCookie = req.cookies?.RefreshToken
 
-        if (!accessToken) {
-            if (!refreshToken) {
+    try {
+        if (!accessCookie) {
+            if (!refreshCookie) {
                 return res.status(401).json(
                     new APIResponse(401, 'Tokens are missing! Please login.')
                 )
             }
 
-            const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_KEY)
+            const payload = jwt.verify(refreshCookie, process.env.REFRESH_TOKEN_KEY)
             const user = await User.findById(payload._id)
 
             if (!user) {
@@ -24,7 +24,7 @@ export default async (req, res, next) => {
                 )
             }
 
-            if (user.refreshToken !== refreshToken) {
+            if (user.refreshToken !== refreshCookie) {
                 return res.status(403).json(
                     new APIResponse(403, "Refresh token doesn't match!")
                 )
@@ -35,13 +35,14 @@ export default async (req, res, next) => {
                 httpOnly: process.env.HTTPONLY === 'true',
                 secure: process.env.SECURE === 'true',
             }
-            res.cookie('accessToken', accessToken, options)
-            res.cookie('refreshToken', refreshToken, options)
+
+            res.cookie('AccessToken', accessToken, options)
+            res.cookie('RefreshToken', refreshToken, options)
+
             req.user = user
             return next()
         }
-
-        const payload = jwt.verify(accessToken, process.env.ACCESS_TOKEN_KEY)
+        const payload = jwt.verify(accessCookie, process.env.ACCESS_TOKEN_KEY)
         const user = await User.findById(payload._id)
 
         if (!user) {
@@ -52,7 +53,7 @@ export default async (req, res, next) => {
 
         req.user = user
         next()
-    } catch (error) {
+    } catch (error) { 
         console.error('Auth Middleware Error:', error)
         return res.status(500).json(
             new APIResponse(500, 'Something went wrong in authentication.')

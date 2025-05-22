@@ -13,12 +13,12 @@ const router = express.Router()
 
 router.route('/')
 .get(getAllBlogs)
-.post(createBlog);
+.post(verifyAccess, createBlog);
 
 router.route('/:id')
-.get(getBlogById)
-.put(updateBlog)
-.delete(deleteBlog);
+.get(verifyAccess, getBlogById)
+.put(verifyAccess, updateBlog)
+.delete(verifyAccess, deleteBlog);
 
 
 
