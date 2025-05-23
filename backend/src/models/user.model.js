@@ -50,6 +50,11 @@ const userSchema = new Schema({
             message: 'Bio must be 250 characters or less!'
         }
     },
+    tags: {
+        type: String,
+        enum: ['', 'software engineer', 'developer', 'teacher', 'student', 'doctor', 'singer', 'artist'],
+        default: ''
+    },
     createdAt: {
         type: Date,
         default: Date.now

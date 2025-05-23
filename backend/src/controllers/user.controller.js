@@ -5,9 +5,9 @@ import generateTokens from '../utils/generateTokens.js'
 
 
 const signup = async (req, res) => {
-    const { fullName, username, email, password } = req.body;
-
     try {
+        const { fullName, username, email, password } = req.body;
+
         if ([fullName, username, email].some(field => field?.trim() === '')) {
             return res.status(404)
                 .json(new APIResponse(404, 'All fields are required!'))
@@ -41,14 +41,15 @@ const signup = async (req, res) => {
             .cookie('RefreshToken', refreshToken, options)
             .json(new APIResponse(200, 'User registered successfully.'))
     } catch (error) {
+        console.log(error)
         throw new APIError(404, 'User registration failed!')
     }
 }
 
 const login = async (req, res) => {
-    const { username, email, password } = req.body;
-
     try {
+        const { username, email, password } = req.body;
+
         if ([username, email].some(field => field?.trim() === '')) {
             return res.status(404)
                 .json(new APIResponse(404, 'All fields are required!'))
@@ -86,7 +87,7 @@ const login = async (req, res) => {
 }
 
 
-const logout = async(req, res) => {
+const logout = async (req, res) => {
     console.log(await req.user)
     res.send("post: logout router")
 }

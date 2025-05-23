@@ -4,13 +4,6 @@ import verifyAccess from "../middlewares/verifyAccess.js";
 
 const router = express.Router()
 
-// get   blogs/ = all
-// get   blogs/:id = one
-// post blogs/:id = one create
-// put blogs/:id  = update one
-// delete blogs/:id = delete one
-
-
 router.route('/')
 .get(getAllBlogs)
 .post(verifyAccess, createBlog);
