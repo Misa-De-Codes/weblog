@@ -86,32 +86,47 @@ const login = async (req, res) => {
     }
 }
 
-
 const logout = async (req, res) => {
     console.log(await req.user)
     res.send("post: logout router")
 }
 
-// get user a user
+
+// get user a user problem?????????
 const updateUser = async (req, res, next) => {
     try {
-        const username = req.params?.username
+        const usernameId = req.params?.username
+        const { fullName, email, username, bio = '', tags = ''} = req.body || {}
         if (!username || username.trim() === '') return res.status(404)
             .json(new APIResponse(404, "Params are missing!"))
 
-        const user = await User.findOneAndUpdate(username).lean()
+        const changes = {}
+        if (fullName) changes.fullName = fullName
+        if (email) changes.email = email
+        if (username) changes.username = username
+        if (bio) changes.bio = bio
+        if (tags) changes.tags = tags
 
+        const user = await User.findOneAndUpdate(
+            { usernameId },
+            {
+                $set: changes
+            },
+         { new: true, runValidators: true }
+        )
+//console.log(user)
         if (!user) return res.status(404)
-                .json(new APIResponse(404, "User doesn't exists."))
+            .json(new APIResponse(404, "User doesn't exists."))
 
         return res.status(200)
-            .json(new APIResponse(200, 'Blog found.', user))
-
-    } catch (error) {
+            .json(new APIResponse(200, 'User updated successfully.', user))
+        //.select('-refreshToken -password -__v')
+    } catch (error) {console.log(error)
         return res.status(404)
             .json(new APIResponse(404, `${error}`))
     }
 }
+
 // find one username by username
 const getAUser = async (req, res) => {
     try {
@@ -119,15 +134,11 @@ const getAUser = async (req, res) => {
         if (!username || username.trim() === '') return res.status(404)
             .json(new APIResponse(404, "Params are missing!"))
 
-        const user = await User.findOne({username}).select('-refreshToken -password -__v').lean()
+        const user = await User.findOne({ username }).select('-refreshToken -password -__v').lean()
 
         if (!user) return res.status(404)
-                .json(new APIResponse(404, "User doesn't exists."))
+            .json(new APIResponse(404, "User doesn't exists."))
 
-        const userData = {
-            user
-        }
-        
         return res.status(200)
             .json(new APIResponse(200, 'User found successfully.', user))
 
