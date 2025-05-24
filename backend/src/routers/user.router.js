@@ -8,5 +8,9 @@ router.post('/', signup)
 router.post('/login' , login)
 router.post('/logout', verifyAccess, logout)
 
+router.route('/:id')
+.get(verifyAccess, (req, res, next) => {
+    res.send('one user by id')
+})
 
 export default router;

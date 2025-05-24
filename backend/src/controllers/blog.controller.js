@@ -17,7 +17,7 @@ const getAllBlogs = async (req, res) => {
     } catch (error) {
         console.log(error)
         return res.status(500)
-            .json(new APIResponse(500, 'Error fetching blogs'))
+            .json(new APIResponse(500, `${error}`))
     }
 }
 // to shear the info of a posty
@@ -39,7 +39,7 @@ const getBlogById = async (req, res) => {
 
     } catch (error) {
         return res.status(404)
-            .json(new APIResponse(404, 'Error finding the blog!'))
+            .json(new APIResponse(404, `${error}`))
     }
 }
 
@@ -48,11 +48,11 @@ const createBlog = async (req, res) => {
     try {
         const { title, body, genra = '' } = req.body
 
-        if (!title) {
+        if (!title || title.trim() === '') {
             return res.status(404)
                 .json(new APIResponse(404, 'Title is required.'))
         }
-        if (!body) {
+        if (!body || body.trim() === '') {
             return res.status(404)
                 .json(new APIResponse(404, 'Body is required.'))
         }
@@ -61,13 +61,13 @@ const createBlog = async (req, res) => {
             title, body, genra, author: req.user._id
         })
 
-        await blog.save()
+        const createdBlog = (await blog.save()).toObject()
         return res.status(200)
-            .json(new APIResponse(200, 'Blog created.'))
+            .json(new APIResponse(200, 'Blog created.', createdBlog))
 
     } catch (error) {
         return res.status(404)
-            .json(new APIResponse(404, 'Error creating the blog!'))
+            .json(new APIResponse(404, `${error}`))
     }
 }
 
@@ -80,11 +80,11 @@ const updateBlog = async (req, res) => {
 
         const { title, body, genra } = req.body
 
-        if (!title) {
+        if (!title || title.trim() === '') {
             return res.status(404)
                 .json(new APIResponse(404, 'Title is required.'))
         }
-        if (!body) {
+        if (!body || body.trim() === '') {
             return res.status(404)
                 .json(new APIResponse(404, 'Body is required.'))
         }
@@ -92,7 +92,7 @@ const updateBlog = async (req, res) => {
         const updatedBlog = await Blog.findByIdAndUpdate(
             id,
             { title, body, genra, },
-            { new: true }
+            { new: true, runValidators: true }
         ).lean()
 
         return res.status(200)
@@ -100,7 +100,7 @@ const updateBlog = async (req, res) => {
 
     } catch (error) {
         return res.status(404)
-            .json(new APIResponse(404, 'Error updating the blog!'))
+            .json(new APIResponse(404, `${error}`))
     }
 }
 
@@ -119,11 +119,11 @@ const deleteBlog = async (req, res) => {
         }
 
         return res.status(404)
-            .json(new APIResponse(404, 'Blog delete unsuccessfull.'))
+            .json(new APIResponse(404, 'Blog delete unsuccessfull. Blog does not esists!'))
 
     } catch (error) {
         return res.status(404)
-            .json(new APIResponse(404, 'Error deleting the blog!'))
+            .json(new APIResponse(404, `${error}`))
     }
 }
 
