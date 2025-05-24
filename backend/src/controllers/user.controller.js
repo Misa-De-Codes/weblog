@@ -92,6 +92,51 @@ const logout = async (req, res) => {
     res.send("post: logout router")
 }
 
+// get user a user
+const updateUser = async (req, res, next) => {
+    try {
+        const username = req.params?.username
+        if (!username || username.trim() === '') return res.status(404)
+            .json(new APIResponse(404, "Params are missing!"))
+
+        const user = await User.findOneAndUpdate(username).lean()
+
+        if (!user) return res.status(404)
+                .json(new APIResponse(404, "User doesn't exists."))
+
+        return res.status(200)
+            .json(new APIResponse(200, 'Blog found.', user))
+
+    } catch (error) {
+        return res.status(404)
+            .json(new APIResponse(404, `${error}`))
+    }
+}
+// find one username by username
+const getAUser = async (req, res) => {
+    try {
+        const username = req.params?.username
+        if (!username || username.trim() === '') return res.status(404)
+            .json(new APIResponse(404, "Params are missing!"))
+
+        const user = await User.findOne({username}).select('-refreshToken -password -__v').lean()
+
+        if (!user) return res.status(404)
+                .json(new APIResponse(404, "User doesn't exists."))
+
+        const userData = {
+            user
+        }
+        
+        return res.status(200)
+            .json(new APIResponse(200, 'User found successfully.', user))
+
+    } catch (error) {
+        return res.status(404)
+            .json(new APIResponse(404, `${error}`))
+    }
+}
 
 
-export { signup, login, logout }
+
+export { signup, login, logout, getAUser, updateUser }
