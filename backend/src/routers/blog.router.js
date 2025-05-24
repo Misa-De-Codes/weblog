@@ -10,7 +10,7 @@ router.route('/')
 
 router.route('/:id')
 .get(verifyAccess, getBlogById)
-.put(verifyAccess, updateBlog)
+.patch(verifyAccess, updateBlog)
 .delete(verifyAccess, deleteBlog);
 
 

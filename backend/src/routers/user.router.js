@@ -10,7 +10,7 @@ router.post('/logout', verifyAccess, logout)
 
 router.route('/:username')
     .get(verifyAccess, getAUser)
-    .put(verifyAccess, updateUser)
+    .patch(verifyAccess, updateUser)
 
     
 export default router;

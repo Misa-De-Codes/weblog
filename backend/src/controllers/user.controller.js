@@ -41,7 +41,6 @@ const signup = async (req, res) => {
             .cookie('RefreshToken', refreshToken, options)
             .json(new APIResponse(200, 'User registered successfully.'))
     } catch (error) {
-        console.log(error)
         throw new APIError(404, 'User registration failed!')
     }
 }
@@ -87,16 +86,32 @@ const login = async (req, res) => {
 }
 
 const logout = async (req, res) => {
-    console.log(await req.user)
-    res.send("post: logout router")
+    try {
+        await User.findByIdAndUpdate(
+            { _id: req.user._id },
+            {
+                $set: { RefreshToken: "" }
+            }, {
+            runValidators: false
+        })
+        const options = {
+            httpOnly: process.env.HTTPONLY === 'true',
+            secure: process.env.SECURE === 'true',
+        }
+        res.status(202)
+        res.clearCookie("AccessToken", options)
+        res.clearCookie("RefreshToken", options)
+            .json(new APIResponse(202, 'User logout successfully.'))
+
+    } catch (error) {
+        throw new APIError(404, `${error}`)
+    }
 }
 
-
-// get user a user problem?????????
 const updateUser = async (req, res, next) => {
     try {
         const usernameId = req.params?.username
-        const { fullName, email, username, bio = '', tags = ''} = req.body || {}
+        const { fullName, email, username, bio = '', tags = '' } = req.body || {}
         if (!username || username.trim() === '') return res.status(404)
             .json(new APIResponse(404, "Params are missing!"))
 
@@ -108,26 +123,25 @@ const updateUser = async (req, res, next) => {
         if (tags) changes.tags = tags
 
         const user = await User.findOneAndUpdate(
-            { usernameId },
+            { username: usernameId },
             {
                 $set: changes
             },
-         { new: true, runValidators: true }
-        )
-//console.log(user)
+            { new: true, runValidators: true }
+        ).select('-refreshToken -password -__v').lean()
+
         if (!user) return res.status(404)
             .json(new APIResponse(404, "User doesn't exists."))
 
         return res.status(200)
             .json(new APIResponse(200, 'User updated successfully.', user))
-        //.select('-refreshToken -password -__v')
-    } catch (error) {console.log(error)
+
+    } catch (error) {
         return res.status(404)
             .json(new APIResponse(404, `${error}`))
     }
 }
 
-// find one username by username
 const getAUser = async (req, res) => {
     try {
         const username = req.params?.username
