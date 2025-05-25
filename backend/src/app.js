@@ -1,14 +1,9 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import logger from './utils/logger.js'
-import APIResponse from './utils/APIResponse.js'
-import APIError from './utils/APIResponse.js'
-
 
 const app = express()
 
-// Setting up universal middlewares
 app.use(express.json())
 app.use(express.urlencoded({
     extended: true
@@ -21,7 +16,7 @@ app.use(cors({
 app.use(cookieParser())
 
 
-// Router defination
+// Router defination 
 import mainRoute from './routers/index.router.js'
 
 app.use('/api/v1', mainRoute)

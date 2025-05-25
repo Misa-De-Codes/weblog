@@ -1,8 +1,9 @@
 import winston from 'winston'
 
-const logger = () => {
-    console.log('logger...')
+const logger = (req, res, next) => {
+    console.log('logger...', req)
 
+    next()
 }
 
 export default logger;

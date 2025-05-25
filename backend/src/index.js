@@ -12,8 +12,7 @@ app.listen(port, async() => {
         await connectDB()
         console.log(`Server is running on http://localhost:${port}`)
     } catch (error) {
-        console.log(`Server initialization failed:`)
-        console.log(`Error: ${error.message}`)
+        console.log(`Server initialization failed: \nError: ${error.message}`)
         process.exit(1)
     }
 })
