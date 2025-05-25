@@ -4,8 +4,6 @@ import validator from 'validator'
 import jwt from 'jsonwebtoken'
 
 const userSchema = new Schema({
-
-    //REQUIRED FIELDS
     fullName: {
         type: String,
         required: [true, 'Your name is required!'],
@@ -38,7 +36,6 @@ const userSchema = new Schema({
         type: String,
         default: ''
     },
-    // OPTIONAL FIELDS
     bio: {
         type: String,
         trim: true,

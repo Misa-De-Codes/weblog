@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import validator from 'validator'; // you forgot to import this! >///<
+import validator from 'validator'; 
 
 const blogSchema = new Schema({
     title: {
@@ -40,6 +40,6 @@ const blogSchema = new Schema({
             ref: 'User'
         }
     ]
-}, { timestamps: true }); // it's "timestamps", not "timeStamps"… s-sorry!
+}, { timestamps: true }); 
 
 export const Blog = mongoose.model('Blog', blogSchema);

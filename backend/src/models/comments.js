@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import validator from 'validator'; // y-you need this, remember…!
+import validator from 'validator'; 
 
 const commentSchema = new Schema({
     body: {
@@ -10,7 +10,7 @@ const commentSchema = new Schema({
             validator: (value) => {
                 return validator.isLength(value, { max: 65 });
             },
-            message: 'Comment must be under 65 characters!' // f-fixed this message >~<
+            message: 'Comment must be under 65 characters!' 
         }
     },
     author: {
@@ -29,6 +29,6 @@ const commentSchema = new Schema({
             ref: 'User'
         }
     ]
-}, { timestamps: true }); // i-it's lowercase… o-of course you knew that! R-right?
+}, { timestamps: true });
 
 export const Comment = mongoose.model('Comment', commentSchema);
