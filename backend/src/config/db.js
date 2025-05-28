@@ -6,7 +6,7 @@ export default async() => {
         
         if(!mongoURI) throw new Error('Unable to load environment variablels!')
 
-        await mongoose.connect(mongoURI)
+        await mongoose.connect(mongoURI) //  useNewUrlParser: true, useUnifiedTopology: true
         console.log('Database connection successfull:', mongoose.connection.host)
         
     } catch (error) {

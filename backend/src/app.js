@@ -9,7 +9,7 @@ app.use(express.urlencoded({
     extended: true
 }))
 app.use(cors({
-    origin: process.env.CORS_ORIGIN || 'http://localhost:5500',
+    origin: process.env.CORS_ORIGIN ,
     methods: ['GET', 'POST', 'PUT', 'DELETE',],
     credentials: true
 }))

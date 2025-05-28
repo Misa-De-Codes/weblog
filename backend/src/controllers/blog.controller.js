@@ -6,7 +6,7 @@ const getAllBlogs = async (req, res) => {
     try {
         const blogs = await Blog.find({}).select('-refreshToken -password -__v').limit(15).lean()
 
-        if (!blogs) return res.status(404)
+        if (!blogs || blogs.length === 0) return res.status(404)
                 .json(new APIResponse(404, "Unable to get the blogs.", blogs))
         
         return res.status(200)
@@ -27,7 +27,7 @@ const getBlogById = async (req, res) => {
 
         const blog = await Blog.findById(id).select('-refreshToken -password -__v').lean()
 
-        if (!blog) return res.status(404)
+        if (!blog || blog.length === 0) return res.status(404)
                 .json(new APIResponse(404, "Blog doesn't exists."))
 
         return res.status(200)
@@ -90,7 +90,7 @@ const updateBlog = async (req, res) => {
             { new: true, runValidators: true }
         ).select('-refreshToken -password -__v').lean()
 
-        if (!updatedBlog) return res.status(404)
+        if (!updatedBlog || updatedBlog.length === 0) return res.status(404)
             .json(new APIResponse(404, 'Blog blog does not exists.'))
 
         return res.status(200)
@@ -112,7 +112,7 @@ const deleteBlog = async (req, res) => {
 
         const deletedBlog = await Blog.findByIdAndDelete(id).select('-refreshToken -password -__v')
 
-        if (deletedBlog) return res.status(200)
+        if (deletedBlog || deletedBlog.length === 0) return res.status(200)
                 .json(new APIResponse(200, 'Blog deleted successfully.', deletedBlog))
 
         return res.status(404)
