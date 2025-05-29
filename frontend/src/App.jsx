@@ -1,34 +1,17 @@
 import React, { useEffect, useState } from 'react';
+import Feeds from './components/Feeds';
+import Header from './components/Header';
 
 function App() {
-  const [data, setData] = useState([]);
 
-  useEffect(() => {
-    const getData = async() => {
-
-      try {
-        const res = await fetch('http://localhost:5500/api/v1/blogs')
-        const data = await res.json()
-
-        console.log(data)
-        setData(data)
-
-
-      } catch (error) {
-        console.log(error)
-      }
-
-      getData()
-      console.log("setdata", data)
-    }
-
-
-
-  }, []);
 
   return (
     <>
-      <div className="text-5xl">Blogs</div>
+      <Header />
+      <main className="mt-15 ">
+        <Feeds />
+
+      </main>
 
     </>
   );

@@ -29,6 +29,6 @@ const commentSchema = new Schema({
             ref: 'User'
         }
     ]
-}, { timestamps: true });
+}, { timestamps: true, autoIndex: false });
 
 export const Comment = mongoose.model('Comment', commentSchema);

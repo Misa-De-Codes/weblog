@@ -4,11 +4,15 @@ import APIResponse from '../utils/APIResponse.js'
 // get all is working but needs to be optimised
 const getAllBlogs = async (req, res) => {
     try {
-        const blogs = await Blog.find({}).select('-refreshToken -password -__v').limit(15).lean()
+        const blogs = await Blog.find({}).select('-__v').limit(15)
+            .populate({
+                path: 'author',
+                select: '-refreshToken -password -__v'
+            }).lean().exec()
 
         if (!blogs || blogs.length === 0) return res.status(404)
-                .json(new APIResponse(404, "Unable to get the blogs.", blogs))
-        
+            .json(new APIResponse(404, "Unable to get the blogs.", blogs))
+
         return res.status(200)
             .json(new APIResponse(200, 'Blogs are here!.', blogs))
 
@@ -25,10 +29,14 @@ const getBlogById = async (req, res) => {
         if (!id) return res.status(404)
             .json(new APIResponse(404, "Params are missing!"))
 
-        const blog = await Blog.findById(id).select('-refreshToken -password -__v').lean()
+        const blog = await Blog.findById(id).select('-__v')
+            .populate({
+                path: 'author',
+                select: '-refreshToken -password -__v'
+            }).lean().exec()
 
         if (!blog || blog.length === 0) return res.status(404)
-                .json(new APIResponse(404, "Blog doesn't exists."))
+            .json(new APIResponse(404, "Blog doesn't exists."))
 
         return res.status(200)
             .json(new APIResponse(200, 'Blog found.', blog))
@@ -45,11 +53,11 @@ const createBlog = async (req, res) => {
         const { title, body, genra = '' } = req.body
 
         if (!title || title.trim() === '') return res.status(404)
-                .json(new APIResponse(404, 'Title is required.'))
-        
+            .json(new APIResponse(404, 'Title is required.'))
+
         if (!body || body.trim() === '') return res.status(404)
-                .json(new APIResponse(404, 'Body is required.'))
-        
+            .json(new APIResponse(404, 'Body is required.'))
+
 
         const blog = new Blog({
             title, body, genra, author: req.user._id
@@ -79,16 +87,20 @@ const updateBlog = async (req, res) => {
         const { title, body, genra } = req.body
 
         if (!title || title.trim() === '') return res.status(404)
-                .json(new APIResponse(404, 'Title is required.'))
+            .json(new APIResponse(404, 'Title is required.'))
 
         if (!body || body.trim() === '') return res.status(404)
-                .json(new APIResponse(404, 'Body is required.'))
+            .json(new APIResponse(404, 'Body is required.'))
 
         const updatedBlog = await Blog.findByIdAndUpdate(
             id,
             { title, body, genra, },
             { new: true, runValidators: true }
-        ).select('-refreshToken -password -__v').lean()
+        ).select('-__v')
+            .populate({
+                path: 'author',
+                select: '-refreshToken -password -__v'
+            }).lean().exec()
 
         if (!updatedBlog || updatedBlog.length === 0) return res.status(404)
             .json(new APIResponse(404, 'Blog blog does not exists.'))
@@ -113,7 +125,7 @@ const deleteBlog = async (req, res) => {
         const deletedBlog = await Blog.findByIdAndDelete(id).select('-refreshToken -password -__v')
 
         if (deletedBlog || deletedBlog.length === 0) return res.status(200)
-                .json(new APIResponse(200, 'Blog deleted successfully.', deletedBlog))
+            .json(new APIResponse(200, 'Blog deleted successfully.', deletedBlog))
 
         return res.status(404)
             .json(new APIResponse(404, 'Blog delete unsuccessfull. Blog does not esists!'))

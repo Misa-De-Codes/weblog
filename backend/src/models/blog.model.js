@@ -21,6 +21,7 @@ const blogSchema = new Schema({
     genra: {
         type: String,
         enum: ['', 'programming', 'anime', 'manga', 'movies', 'japanese', 'drawing'],
+        lowercase: true,
         default: ''
     },
     author: {
