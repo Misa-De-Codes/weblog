@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import Feeds from './components/Feeds';
-import Header from './components/Header';
+import React from "react";
 
 function App() {
 
 
   return (
     <>
-      <Header />
-      <main className="mt-15 ">
-        <Feeds />
 
-      </main>
-
+      <h1 className="text-5xl font-Inter ">hellow susiie</h1>  
     </>
   );
 }

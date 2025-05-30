@@ -1,1 +1,8 @@
+@import url('https://fonts.googleapis.com/css?family=Inter:regular,500,600,700,800%7CCaveat:regular,500,600,700');
+
+
 @import "tailwindcss";
+
+@theme {
+    --font-Inter: "Inter", "sans-serif"
+}
