@@ -8,9 +8,10 @@ app.use(express.json())
 app.use(express.urlencoded({
     extended: true
 }))
+
 app.use(cors({
-    origin: process.env.CORS_ORIGIN ,
-    methods: ['GET', 'POST', 'PUT', 'DELETE',],
+    origin: ['http://localhost:5173', 'https://your-production-domain.com'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE',],
     credentials: true
 }))
 app.use(cookieParser())

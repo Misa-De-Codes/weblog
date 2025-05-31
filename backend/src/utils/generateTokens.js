@@ -6,7 +6,7 @@ const generateTokens = async function (userId) {
         const user = await User.findById(userId)
 
         const accessToken = user.generateAccessTokens()
-        const refreshToken = user.generatRefreshTokens()
+        const refreshToken = user.generateRefreshTokens()
 
         user.refreshToken = refreshToken
         await user.save({ validateBeforeSave: false })
