@@ -4,15 +4,12 @@ import verifyAccess from "../middlewares/verifyAccess.js";
 
 const router = express.Router()
 
-router.route('/')
-.get(getAllComments)
-.post(verifyAccess, createComment);
+router.get('/:blogId', getAllComments);
+router.post('/:blogId', verifyAccess, createComment);
 
-router.route('/:id')
-.get(verifyAccess, getCommentById)
-.put(verifyAccess, updateCommentById)
-.delete(verifyAccess, deleteCommentById);
+//router.get('/:blogId/:id', verifyAccess, getCommentById);
 
-
+router.patch('/:commentId', verifyAccess, updateCommentById);
+router.delete('/:commentId', verifyAccess, deleteCommentById);
 
 export default router;

@@ -21,8 +21,8 @@ import mainRoute from './routers/index.router.js'
 
 app.use('/api/v1', mainRoute)
 
-app.get('/', (req, res, next)=> {
-    res.send('hellow susie')
+app.get('/', (req, res) => {
+    res.send('hello susie')
 })
 
 export default app;

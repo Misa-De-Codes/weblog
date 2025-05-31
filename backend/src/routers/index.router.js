@@ -8,7 +8,7 @@ import blogRouter from './blog.router.js'
 import commentRouter from './comment.router.js'
 
 // Routers Definations
-app.use('/users', userRouter)
+app.use('/auth', userRouter)
 app.use('/blogs', blogRouter)
 app.use('/comments', commentRouter)
 

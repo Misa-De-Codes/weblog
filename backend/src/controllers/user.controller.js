@@ -108,7 +108,7 @@ const logout = async (req, res) => {
     }
 }
 
-const updateUser = async (req, res, next) => {
+const updateUser = async (req, res) => {
     try {
         const usernameId = req.params?.username
         const { fullName, email, username, bio = '', tags = '' } = req.body || {}

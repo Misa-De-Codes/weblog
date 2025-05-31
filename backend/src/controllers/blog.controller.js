@@ -47,7 +47,7 @@ const getBlogById = async (req, res) => {
     }
 }
 
-// save is done for now
+
 const createBlog = async (req, res) => {
     try {
         const { title, body, genra = '' } = req.body
@@ -63,9 +63,13 @@ const createBlog = async (req, res) => {
             title, body, genra, author: req.user._id
         })
 
-        const createdBlog = (await blog.save()).toObject()
-        delete createdBlog.refreshToken
-        delete createdBlog.password
+        const savedBlog = (await blog.save())
+        await savedBlog.populate({
+                path: 'author',
+                select: '-refreshToken -password -__v'
+            })
+
+        const createdBlog = savedBlog.toObject()
         delete createdBlog.__v
 
         return res.status(200)
@@ -77,7 +81,6 @@ const createBlog = async (req, res) => {
     }
 }
 
-// update one is done 
 const updateBlog = async (req, res) => {
     try {
         const id = req.params?.id
@@ -115,7 +118,6 @@ const updateBlog = async (req, res) => {
     }
 }
 
-//delete blog done
 const deleteBlog = async (req, res) => {
     try {
         const id = req.params?.id
