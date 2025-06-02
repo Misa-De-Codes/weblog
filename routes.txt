@@ -1,0 +1,42 @@
+Here are your API routes, organized by resource and method, based on your backend routers and controllers:
+
+the backend is running on port: http://localhost:5500
+
+---
+
+## Auth/User Routes (`/api/v1/auth`)
+| Method | Endpoint                | Description                | Auth Required |
+|--------|-------------------------|----------------------------|---------------|
+| POST   | `/signup`               | Register a new user        | No            |
+| POST   | `/login`                | Login user                 | No            |
+| POST   | `/logout`               | Logout user                | Yes           |
+| GET    | `/:username`            | Get user by username       | Yes           |
+| PATCH  | `/:username`            | Update user by username    | Yes           |
+
+---
+
+## Blog Routes (`/api/v1/blogs`)
+| Method | Endpoint        | Description              | Auth Required |
+|--------|-----------------|--------------------------|---------------|
+| GET    | `/`             | Get all blogs            | No            |
+| GET    | `/:username`    | Get all blogs of a user  | No            |   
+| POST   | `/`             | Create a new blog        | Yes           |
+| GET    | `/:blogId`      | Get blog by ID           | Yes           |
+| PATCH  | `/:blogId`      | Update blog by ID        | Yes           |
+| DELETE | `/:blogId`      | Delete blog by ID        | Yes           |
+
+---
+
+## Comment Routes (`/api/v1/comments`)
+| Method | Endpoint            | Description                    | Auth Required |
+|--------|---------------------|--------------------------------|---------------|
+| GET    | `/:blogId`          | Get all comments for a blog    | No            |
+| POST   | `/:blogId`          | Add comment to a blog          | Yes           |
+| PATCH  | `/:commentId`       | Update comment by ID           | Yes           |
+| DELETE | `/:commentId`       | Delete comment by ID           | Yes           |
+
+---
+
+Note:
+- All endpoints are prefixed with `/api/v1`.
+- Endpoints marked "Auth Required: Yes" require the user to be authenticated (send cookies/tokens).

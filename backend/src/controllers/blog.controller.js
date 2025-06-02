@@ -22,6 +22,30 @@ const getAllBlogs = async (req, res) => {
             .json(new APIResponse(500, `${error}`))
     }
 }
+
+// get blog of a perticular user
+const getUserBlogs = async (req, res) => {
+    try {
+        const userId = req.user._id 
+        const blogs = await Blog.find({ author: userId }).select('-__v')
+            .populate({
+                path: 'author',
+                select: '-refreshToken -password -__v'
+            }).lean().exec()
+
+        if (!blogs || blogs.length === 0) return res.status(404)
+            .json(new APIResponse(404, "User does not have any blogs.", blogs))
+
+        return res.status(200)
+            .json(new APIResponse(200, 'User blogs are here!.', blogs))
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500)
+            .json(new APIResponse(500, `${error}`))
+    }
+}
+
 // to shear the info of a posty
 const getBlogById = async (req, res) => {
     try {
@@ -146,5 +170,6 @@ export {
     getBlogById,
     createBlog,
     updateBlog,
-    deleteBlog
+    deleteBlog,
+    getUserBlogs
 }  
