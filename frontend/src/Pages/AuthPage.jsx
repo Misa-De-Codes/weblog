@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // For navigation (optional)
 
-const Auth = () => {
+const AuthPage = () => {
   const [isLogin, setIsLogin] = useState(true); // Toggle between Login/Signup
   const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
   const navigate = useNavigate();
@@ -112,7 +112,7 @@ const Auth = () => {
         </form>
 
         {/* Forgot Password / Social Login */}
-{  /* 
+ 
        <div style={styles.extraOptions}>
           {isLogin && (
             <a href="/forgot-password" style={styles.link}>
@@ -127,8 +127,7 @@ const Auth = () => {
             </div>
           </div>
         </div>
-*/        
-}
+
       </div>
     </div>
   );
@@ -267,4 +266,4 @@ const styles = {
   },
 };
 
-export default Auth;
+export default AuthPage;
