@@ -1,0 +1,21 @@
+{
+  "name": "weblog",
+  "version": "1.0.0",
+  "description": "Welcome to the Weblog repository! This project is a full-stack web application with a Node.js/Express backend and a React/Vite frontend.",
+  "main": "index.js",
+  "scripts": {
+    "f": "cd frontend && npm run dev",
+    "b": "cd backend && npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Misa-De-Codes/weblog.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Misa-De-Codes/weblog/issues"
+  },
+  "homepage": "https://github.com/Misa-De-Codes/weblog#readme"
+}

@@ -4,12 +4,12 @@ import './index.css'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import App from './App.jsx'
 import HomePage from './Pages/HomePage.jsx'
-import DiscoverPage from './Pages/DiscoverPage.jsx'
 import SavePage from './Pages/SavePage.jsx'
 import ProfilePage from './Pages/ProfilePage.jsx'
 import SettingsPage from './Pages/SettingsPage.jsx'
 import NotFoundPage from './Pages/NotFoundPage.jsx'
 import AuthPage from './Pages/AuthPage.jsx'
+import CreatePage from './Pages/CreatePage.jsx'
 
 const router = createBrowserRouter([
     {
@@ -17,9 +17,9 @@ const router = createBrowserRouter([
         element: <App />,
         children: [
             { path: '/home', element: <HomePage /> },
-            { path: '/discover', element: <DiscoverPage /> },
+            { path: '/create', element: <CreatePage /> },
             { path: '/bookmarks', element: <SavePage /> },
-            { path: '/profile', element: <ProfilePage /> },
+            { path: '/profile', element: <ProfilePage/> },
 
             { path: '/settings', element: <SettingsPage /> },
 

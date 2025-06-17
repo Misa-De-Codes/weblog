@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom'
 
 function App() {
   return (
-    <main className='py-15'>
+    <main className='mx-5 my-15'>
         <Header />
         <Outlet />
         <Footer />
