@@ -82,7 +82,7 @@ userSchema.methods.generateAccessTokens = function () {
         },
         process.env.ACCESS_TOKEN_KEY,
         {
-            expiresIn: process.env.REFRESH_TOKEN_EXPIRY
+            expiresIn: process.env.ACCESS_TOKEN_EXPIRY
         }
     )
 }

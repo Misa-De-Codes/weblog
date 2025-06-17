@@ -4,7 +4,7 @@
   "description": "Welcome to the Weblog repository! This project is a full-stack web application with a Node.js/Express backend and a React/Vite frontend.",
   "main": "index.js",
   "scripts": {
-    "f": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
     "b": "cd backend && npm start"
   },
   "repository": {
