@@ -22,11 +22,11 @@ function Post({ title, body, author, createdAt, genre, likes = [], bookmarks = [
         
       {/* Post Header */}
       <div>
-        <h2 className='mt-2 text-xl font-semibold'>{title}</h2>
+        <h2 className='mt-2 font-semibold'>{title}</h2>
       </div>
 
       {/* Post Content */}
-      <p className='text-white/75 mt-2'>
+      <p className='text-white/75 text-sm mt-2'>
         {body.length > 150 ? `${body.substring(0, 150)}...` : body}
       </p>
 

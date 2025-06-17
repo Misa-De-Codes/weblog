@@ -23,11 +23,13 @@ const getAllBlogs = async (req, res) => {
     }
 }
 
+
+
 // get blog of a perticular user
 const getUserBlogs = async (req, res) => {
     try {
-        const userId = req.user._id 
-        const blogs = await Blog.find({ author: userId }).select('-__v')
+        const username = req.params?.id
+        const blogs = await Blog.find({ author: username }).select('-__v')
             .populate({
                 path: 'author',
                 select: '-refreshToken -password -__v'
@@ -46,7 +48,7 @@ const getUserBlogs = async (req, res) => {
     }
 }
 
-// to shear the info of a posty
+// to shear the info of a post
 const getBlogById = async (req, res) => {
     try {
         const id = req.params?.id
