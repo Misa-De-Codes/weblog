@@ -4,7 +4,7 @@ import { CgProfile } from "react-icons/cg";
 
 function Post({ title, body, author, createdAt, genre, likes = [], bookmarks = [] }) {
   return (
-    <article className='mt-5 pb-5 border-b-1 border-white/30 '>
+    <article className='mb-5 pt-5 border-t-1 border-white/15 '>
       
       {/* Post Footer */}
       <div>

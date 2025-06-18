@@ -10,8 +10,7 @@ router.route('/')
 .post(verifyAccess, createBlog);
 
 router.route('/:id')
-.get(getUserBlogs) 
-.get(verifyAccess, getBlogById)
+.get(getUserBlogs)
 .patch(verifyAccess, updateBlog)
 .delete(verifyAccess, deleteBlog);
 

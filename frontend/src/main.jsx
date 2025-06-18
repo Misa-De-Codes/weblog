@@ -1,7 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
-import { createBrowserRouter, href, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, href, Navigate, RouterProvider } from 'react-router-dom'
 import App from './App.jsx'
 import HomePage from './Pages/HomePage.jsx'
 import SavePage from './Pages/SavePage.jsx'
@@ -18,18 +18,19 @@ const router = createBrowserRouter([
         path: '/',
         element: <App />,
         children: [
+            { index: true, element: <Navigate to='home' replace /> },
             { path: '/home', element: <HomePage /> },
             { path: '/create', element: <CreatePage /> },
             { path: '/bookmarks', element: <SavePage /> },
             {
-                path: '/profile/',
+                path: '/:profile/',
                 element: <ProfilePage />,
                 children: [
-                    { index: true, element: <UserPost /> },
-                    { path: '/profile/posts', element: <UserPost /> },
-                    { path: '/profile/replies', element: <Loading/>},
-                    { path: '/profile/articles', element: <UserPost /> },
-                    { path: '/profile/likes', element: <Loading/> }
+                    { index: true, element: <Navigate to='posts' replace /> },
+                    { path: '/:profile/posts', element: <UserPost /> },
+                    { path: '/:profile/replies', element: <Loading/>},
+                    { path: '/:profile/articles', element: <UserPost /> },
+                    { path: '/:profile/likes', element: <Loading/> }
                 ]
             },
 

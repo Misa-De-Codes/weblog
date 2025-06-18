@@ -4,19 +4,17 @@ import { FiSettings } from 'react-icons/fi';
 
 const Header = () => {
   return (
-    <header className='fixed top-0 left-0 min-w-full flex items-center justify-between p-2 shadow-md bg-black '>
-      {/* Logo on the left */}
+    <header className='fixed top-0 left-0 min-w-full flex items-center z-10 justify-between p-2 py-3 shadow-md bg-gray-900 border-b-1 border-white/15 '>
       <div >
         <Link to="/home">
-          {/* <img 
+          <img 
             src="/public/images.jpg" 
             alt="Blog Logo" 
-            className='w-15'
-          /> */}
+            className='pl-2 w-25 h-8'
+          />
         </Link>
       </div>
 
-      {/* Settings icon on the right */}
       <div className='flex justify-center items-center w-10 h-10'>
         <Link to="/settings">
           <FiSettings size={20} />

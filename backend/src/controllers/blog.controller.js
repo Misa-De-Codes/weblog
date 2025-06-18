@@ -48,7 +48,8 @@ const getUserBlogs = async (req, res) => {
     }
 }
 
-// to shear the info of a post
+// this is not working properly, need to fix it
+// to share the info of a post
 const getBlogById = async (req, res) => {
     try {
         const id = req.params?.id

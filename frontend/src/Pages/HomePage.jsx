@@ -16,8 +16,6 @@ function HomePage() {
 
   return (
     <>
-      {/* Example static post, can be removed if not needed */}
-      {/* <Post title={"hds"} body={'shd'} /> */}
       <ul className="">
         {
           blogs && blogs.length > 0 ? (
@@ -25,7 +23,9 @@ function HomePage() {
               <Post key={blog._id} title={blog.title} body={blog.body} author={blog.author} createdAt={blog.createdAt} genre={blog.genra} likes={blog.likes} bookmarks={blog.bookMark} />
             ))
           ) : (
-            <h1>No blogs found</h1>
+            <div className="fixed min-w-screen min-h-screen top-0 left-0 flex justify-center items-center">
+              <div className='loading'></div>
+            </div>
           )
         }
       </ul>
